@@ -3,21 +3,27 @@ from discord.ext import commands, tasks
 import datetime
 import pytz
 
+# Define your intents
+intents = discord.Intents.default()
+
 BOT_ID = "YOUR_BOT_ID"
 YOUR_CHANNEL_ID = "YOUR_CHANNEL_ID"
-bot = commands.Bot(command_prefix='?')
+bot = commands.Bot(command_prefix='?', intents=intents)
+
+# Define timezone
+timezone = pytz.timezone('Asia/Ho_Chi_Minh')
 
 # Dates for your tests (replace with your actual test dates)
-speaking_test_date = datetime.datetime(2024, 4, 19, 16, 45, 0)  # April 19th, 2024 at 4:45 PM
-lrw_test_date = datetime.datetime(2024, 4, 20, 9, 0, 0)  # April 20th, 2024 at 9:00 AM
+speaking_test_date = timezone.localize(datetime.datetime(2024, 4, 19, 16, 45, 0))  # April 19th, 2024 at 4:45 PM
+lrw_test_date = timezone.localize(datetime.datetime(2024, 4, 20, 9, 0, 0))  # April 20th, 2024 at 9:00 AM
 
 def get_current_time():
-    now = datetime.datetime.now(pytz.timezone('Asia/Ho_Chi_Minh'))
+    now = datetime.datetime.now(timezone)
     current_time = now.strftime('%Y-%m-%d %H:%M:%S %Z%z')
     return current_time
 
 def get_days_left(test_date):
-    now = datetime.datetime.now(pytz.timezone('Asia/Ho_Chi_Minh'))
+    now = datetime.datetime.now(timezone)
     delta = test_date - now
     return delta.days
 
@@ -45,14 +51,14 @@ async def announce_days_left():
     speaking_days_left = get_days_left(speaking_test_date)
     lrw_days_left = get_days_left(lrw_test_date)
 
-    channel = bot.get_channel(YOUR_CHANNEL_ID)
+    channel = bot.get_channel(int(YOUR_CHANNEL_ID))
 
     await channel.send(format_message(speaking_days_left, "Speaking"))
     await channel.send(format_message(lrw_days_left, "Listening, Reading, Writing"))
 
 @bot.event
 async def on_ready():
-    print(f"I am {bot.user.name}!")
+    print(f"I'm {bot.user.name}!")
     announce_days_left.start()
 
 bot.run('YOUR_BOT_TOKEN')
