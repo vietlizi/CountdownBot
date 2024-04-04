@@ -15,4 +15,4 @@ I do not know for sure. This works perfectly on the Oranth Tanix TX3 Mini runnin
 - Replace "YOUR_CHANNEL_ID" with the channel ID that you want the bot to text on; you know where to find it, right?
 - Replace "user_id" with your own or others' user_id, and you know where to find it, right?
 5. Run the bot using python3 main.py, let it run for a few seconds, and it should be good to go.
-  (Side note: You know it's functioning when it pings you the message counting down the time left in days.)
+  (You know it's functioning when it pings you the message counting down the time left in days.)
