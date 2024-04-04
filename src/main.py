@@ -10,7 +10,6 @@ BOT_ID = "YOUR_BOT_ID"
 YOUR_CHANNEL_ID = "YOUR_CHANNEL_ID"
 bot = commands.Bot(command_prefix='?', intents=intents)
 
-# Define timezone
 timezone = pytz.timezone('Asia/Ho_Chi_Minh')
 
 # Dates for your tests (replace with your actual test dates)
@@ -27,8 +26,8 @@ def get_days_left(test_date):
     delta = test_date - now
     return delta.days
 
-def format_message(days_left, test_name):
-    mention = f"<@{BOT_ID}>"
+def format_message(days_left, test_name, user_id):
+    mention = f"<@{user_id}>"
     if days_left == 0:
         return f"{mention} Today is your {test_name} test day!"
     elif days_left == 1:
@@ -53,12 +52,15 @@ async def announce_days_left():
 
     channel = bot.get_channel(int(YOUR_CHANNEL_ID))
 
-    await channel.send(format_message(speaking_days_left, "Speaking"))
-    await channel.send(format_message(lrw_days_left, "Listening, Reading, Writing"))
+    # Replace USER_ID with the actual user ID you want to tag
+    user_id = "USER_ID"
+
+    await channel.send(format_message(speaking_days_left, "Speaking", user_id))
+    await channel.send(format_message(lrw_days_left, "Listening, Reading, Writing", user_id))
 
 @bot.event
 async def on_ready():
-    print(f"I'm {bot.user.name}!")
+    print(f"I am inside {bot.user.name}!")
     announce_days_left.start()
 
-bot.run('YOUR_BOT_TOKEN')
+bot.run('YOUR_BOT_ID')
