@@ -52,7 +52,7 @@ async def announce_days_left():
 
 @bot.event
 async def on_ready():
-    print(f'I'm {bot.user.name}!')
+    print(f"I am {bot.user.name}!")
     announce_days_left.start()
 
 bot.run('YOUR_BOT_TOKEN')
